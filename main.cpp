@@ -2,14 +2,19 @@
 #include <string>
 #include "RegistrationQueue.hpp"
 #include "ActiveSession.hpp"
+#include "ActivityLog.hpp"
+#include "RiskEngine.hpp"
+#include "Learner.hpp"
 
 using namespace std;
 
 int main() {
     RegistrationQueue queue;
-    ActiveSession session;
+    ActiveSession session; 
     int choice;
     string id, name;
+    ActivityLog activityLog;
+    RiskEngine riskEngine;
 
     cout << "Initializing APU PLAPS - Task 1 Module...\n";
 
@@ -20,8 +25,12 @@ int main() {
         cout << "3. Move Next Learner to Active Session\n";
         cout << "4. View Active Session\n";
         cout << "5. Exit Learner from Session (Free up space)\n";
-        cout << "6. Quit Prototype\n";
-        cout << "Select an action (1-6): ";
+        cout << "6. Record Activity Attempt\n";
+        cout << "7. View All Recent Activity Logs\n";
+        cout << "8. View Activity Logs by Learner\n";
+        cout << "9. View At-Risk Learners & Recommendations\n";
+        cout << "10. Quit Prototype\n";
+        cout << "Select an action (1-10): ";
 
         if (!(cin >> choice)) {
             cin.clear();
@@ -29,7 +38,6 @@ int main() {
             choice = 0;
         }
         else {
-            // This specifically clears the 'Enter' key press so getline works!
             cin.ignore(10000, '\n');
         }
 
@@ -42,13 +50,11 @@ int main() {
             queue.registerLearner(id, name);
             break;
         case 2:
-            cout << "\n";
             queue.displayQueue();
             break;
         case 3:
             if (session.isFull()) {
                 cout << "\nAction Denied: The Active Session is currently full!\n";
-                cout << "Someone must exit the session before moving the next learner.\n";
             }
             else if (queue.isEmpty()) {
                 cout << "\nNo learners are currently waiting in the queue.\n";
@@ -68,11 +74,48 @@ int main() {
             getline(cin, id);
             session.exitSession(id);
             break;
-        case 6:
+        case 6: {
+            string learnerID;
+            cout << "Enter Learner ID: ";
+            getline(cin, learnerID); 
+
+            if (!session.isLearnerActive(learnerID)) {
+                cout << "\n[ERROR] This learner is NOT in an active session!" << endl;
+                cout << "Please move the learner to active session first (Option 3)." << endl;
+                break;
+            }
+
+            string activity, diff;
+            int score;
+            cout << "Enter Activity Name: ";
+            getline(cin, activity);
+            cout << "Enter Score (0-100): ";
+            cin >> score;
+            cin.ignore(10000, '\n');
+            cout << "Enter Difficulty (Easy/Medium/Hard): ";
+            getline(cin, diff);
+
+            activityLog.addActivity(learnerID, activity, score, diff);
+            cout << "\nActivity recorded successfully!" << endl;
+            break;
+        }
+        case 7:
+            activityLog.displayAll();
+            break;
+        case 8:
+            cout << "Enter Learner ID: ";
+            getline(cin, id);
+            activityLog.displayByLearner(id);
+            break;
+        case 9:
+            riskEngine.calculateRisk(activityLog);
+            riskEngine.displayRiskList();
+            break;
+        case 10:
             cout << "Exiting PLAPS Task 1 Prototype. Goodbye!\n";
             return 0;
         default:
-            cout << "Invalid choice. Please select a number from 1 to 6.\n";
+            cout << "Invalid choice.\n";
         }
     }
 }

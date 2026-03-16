@@ -14,6 +14,15 @@ bool ActiveSession::isFull() {
     return currentCount >= MAX_CAPACITY;
 }
 
+bool ActiveSession::isLearnerActive(const string& learnerID) {
+    for (int i = 0; i < MAX_CAPACITY; i++) {
+        if (sessionArray[i] != nullptr && sessionArray[i]->studentID == learnerID) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void ActiveSession::joinSession(Learner* newLearner) {
     if (isFull()) {
         cout << "Session is currently full! " << newLearner->name << " must wait in the queue.\n";

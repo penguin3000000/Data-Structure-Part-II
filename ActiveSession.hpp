@@ -16,6 +16,7 @@ public:
     void exitSession(std::string id);
     void displayActiveSession();
     bool isFull();
+    bool isLearnerActive(const std::string& learnerID);
 };
 
 #endif

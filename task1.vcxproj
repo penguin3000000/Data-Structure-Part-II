@@ -126,16 +126,20 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="ActiveSession.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="RegistrationQueue.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ActiveSession.hpp" />
-    <ClInclude Include="Learner.hpp" />
-    <ClInclude Include="RegistrationQueue.hpp" />
-  </ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="ActiveSession.cpp" />
+		<ClCompile Include="ActivityLog.cpp" />
+		<ClCompile Include="main.cpp" />
+		<ClCompile Include="RegistrationQueue.cpp" />
+		<ClCompile Include="RiskEngine.cpp" />
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="ActiveSession.hpp" />
+		<ClInclude Include="ActivityLog.hpp" />
+		<ClInclude Include="Learner.hpp" />
+		<ClInclude Include="RegistrationQueue.hpp" />
+		<ClInclude Include="RiskEngine.hpp" />
+	</ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
